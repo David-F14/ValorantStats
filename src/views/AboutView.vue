@@ -1,6 +1,7 @@
 <script setup>
 import TheWelcome from '../components/TheWelcome.vue'
 import HelloWorld from '../components/HelloWorld.vue'
+import HomeView from '../components/HomeView.vue'
 import { RouterLink } from 'vue-router'
 </script>
 
@@ -21,7 +22,7 @@ import { RouterLink } from 'vue-router'
   </main>
 </template>
 
-<style>
+<style scoped>
 header {
   line-height: 1.5;
   max-height: 100vh;
