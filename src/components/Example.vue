@@ -35,7 +35,7 @@ export default({
 <template>
     <div class="greetings">
         <h1 class="green">{{ msg }}</h1>
-        Reactive button <button @click="count++">{{ count }}</button>
+        Reactive button <button @click="count++"> {{ count }}</button>
         <h3>
             You’ve successfully created a project with
             <a href="https://vitejs.dev/" target="_blank" rel="noopener"
@@ -57,6 +57,10 @@ h1 {
 
 h3 {
     font-size: 1.2rem;
+}
+
+.greetings button {
+  background-color: grey;
 }
 
 .greetings h1,

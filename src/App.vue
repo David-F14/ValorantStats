@@ -1,9 +1,11 @@
 <script setup>
 import { RouterView } from 'vue-router'
+import Navbar from './components/Navbar.vue';
 </script>
 
 <template>
   <div class="main">
+    <Navbar />
     <RouterView />
   </div>
 </template>
@@ -16,7 +18,10 @@ import { RouterView } from 'vue-router'
         url(src/assets/images/background-1.jpg);
     background-size: cover;
     background-position: center;
-    padding: 10px 8%;
+    padding: 0;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 </style>

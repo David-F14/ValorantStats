@@ -1,7 +1,5 @@
 <script setup>
-import TheWelcome from '../components/TheWelcome.vue'
-import HelloWorld from '../components/HelloWorld.vue'
-import HomeView from '../components/HomeView.vue'
+import Example from '../components/Example.vue'
 import { RouterLink } from 'vue-router'
 </script>
 
@@ -10,16 +8,9 @@ import { RouterLink } from 'vue-router'
     <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
 
     <div class="wrapper">
-      <HelloWorld msg="You did itt!" />
-      <nav>
-        <RouterLink to="/home">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
+      <Example msg="You did it!" />
     </div>
-  </header>
-  <main>
-    <TheWelcome />
-  </main>
+  </header>  
 </template>
 
 <style scoped>
@@ -62,6 +53,7 @@ nav a:first-of-type {
   header {
     display: flex;
     place-items: center;
+    justify-content: center;
     padding-right: calc(var(--section-gap) / 2);
   }
 
