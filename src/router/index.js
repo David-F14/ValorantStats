@@ -4,6 +4,7 @@ import AgentsView from '../views/AgentsView.vue'
 import MapsView from '../views/MapsView.vue'
 import GameModesView from '../views/GameModesView.vue'
 import WeaponsView from '../views/WeaponsView.vue'
+import AgentsDetails from '@/components/AgentDetails.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -17,6 +18,12 @@ const router = createRouter({
       path: '/agents',
       name: 'agents',
       component: AgentsView
+    },
+    {
+      path: '/agents/:uuid',
+      name: 'agentDetails',
+      component: AgentsDetails,
+      props: true
     },
     {
       path: '/weapons',
