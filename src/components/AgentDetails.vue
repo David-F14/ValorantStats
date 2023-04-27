@@ -12,7 +12,8 @@ export default {
     methods: {
         getInfoAgent(uuid) {
             return axios.get(
-                "https://valorant-api.com/v1/agents/" + uuid.toString()
+                "https://valorant-api.com/v1/agents/" + uuid.toString(),
+                { params: { language: "fr-FR" } }
             );
         },
         showAbilityDescription(index) {
@@ -22,25 +23,32 @@ export default {
     },
 
     mounted() {
-        console.log("mounted AgentDetails", this.uuid);
-        this.getInfoAgent(this.uuid).then(
-            (res) => (this.agent = res.data.data)
-        );
+        
+        this.getInfoAgent(this.uuid).then(res => {
+            this.agent = res.data.data
+            console.log("mounted AgentDetails", this.agent);
+        });
     },
 };
 </script>
 
 <template>
     <div class="agent-details">
-        <h1 class="agent-name">{{ agent.displayName }}</h1>
-        <div class="agent-image-container">
+        <div class="agent-presentation">
             <img
                 class="agent-image"
                 :src="agent.bustPortrait"
                 :alt="agent.name"
             />
+            <div class="name-description">
+                <h3 class="agent-name">{{ agent.displayName }}</h3>
+                
+                <!-- <h3 class="agent-role">{{ agent.role.displayName }}</h3> -->
+                <!-- <img :src="agent.role.displayIcon"> -->
+                <p class="agent-description">{{ agent.description }}</p>
+            </div>
         </div>
-        <div class="agent-description">{{ agent.description }}</div>
+
         <div class="agent-abilities">
             <h2 class="abilities-title">Abilities:</h2>
             <div
@@ -64,6 +72,20 @@ export default {
 </template>
 
 <style scoped>
+
+.name-description {
+    width: 350px;
+    border: 1px solid red;
+    border-radius: 10px;
+}
+
+.agent-presentation {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
 .agent-details {
     display: flex;
     flex-direction: column;
@@ -73,26 +95,23 @@ export default {
 }
 
 .agent-name {
-    font-size: 3rem;
-    margin-top: 2rem;
-    text-align: center;
-}
-
-.agent-image-container {
-    width: 80%;
-    margin-top: 2rem;
+    font-size: 2rem;
+    text-align: center;    
+    color: black;
+    border-bottom: 1px solid red;    
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    background: linear-gradient(135deg, rgb(255, 51, 66) 0%, rgb(255, 48, 64) 0.01%, rgb(255, 125, 102) 100%);
 }
 
 .agent-image {
-    width: 100%;
-    height: auto;
-    border-radius: 50%;
+    position: relative;
+    height: 50vh;
 }
 
-.agent-description {
-    font-size: 1.5rem;
-    margin-top: 2rem;
-    margin-right: 2rem;
+.agent-description {    
+    font-size: 1rem;
+    padding: 4%;
     text-align: justify;
 }
 

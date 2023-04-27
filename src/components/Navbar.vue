@@ -2,7 +2,8 @@
 
 <template>
     <nav class="navbar" style="position: sticky">
-        <ul class="navbar-menu">
+        <ul class="navbar-menu">            
+            <li class="navbar-item"><img src="../assets/images/valorant-title.png" alt=""></li>
             <li class="navbar-item"><RouterLink to="/">Home</RouterLink></li>
             <li class="navbar-item"><RouterLink to = "/agents">Agents</RouterLink></li>
             <li class="navbar-item"><RouterLink to = "/weapons">Weapons</RouterLink></li>
@@ -38,6 +39,13 @@
 
 .navbar-item a {
     text-decoration: none;
+}
+
+.navbar img {
+    width: 90px;
+    height: 70px;
+    display: flex;
+    justify-content: center;
 }
 
 </style>
