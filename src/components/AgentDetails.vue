@@ -7,6 +7,7 @@ export default {
         return {
             agent: {},
             showTooltip: [],
+            currentAbility: {},
         };
     },
     methods: {
@@ -16,16 +17,16 @@ export default {
                 { params: { language: "fr-FR" } }
             );
         },
+
         showAbilityDescription(index) {
-            // Toggle the visibility of the tooltip for the clicked ability
-            this.showTooltip[index] = !this.showTooltip[index];
+            this.currentAbility = this.agent.abilities[index];
         },
     },
 
     mounted() {
-        
-        this.getInfoAgent(this.uuid).then(res => {
-            this.agent = res.data.data
+        this.getInfoAgent(this.uuid).then((res) => {
+            this.agent = res.data.data;
+            this.agent.abilities.forEach((e) => (e.showTooltip = false));
             console.log("mounted AgentDetails", this.agent);
         });
     },
@@ -42,37 +43,36 @@ export default {
             />
             <div class="name-description">
                 <h3 class="agent-name">{{ agent.displayName }}</h3>
-                
-                <!-- <h3 class="agent-role">{{ agent.role.displayName }}</h3> -->
-                <!-- <img :src="agent.role.displayIcon"> -->
+                <div class="agent-role" v-if="agent.role">
+                    <img :src="agent.role.displayIcon" />
+                    <h3>{{ agent.role.displayName }}</h3>
+                </div>
                 <p class="agent-description">{{ agent.description }}</p>
             </div>
         </div>
 
+        <h2 class="abilities-title">Compétences</h2>
         <div class="agent-abilities">
-            <h2 class="abilities-title">Abilities:</h2>
             <div
                 class="ability-container"
                 v-for="(ability, index) in agent.abilities"
-                :key="index"
             >
-                <h3 class="ability-name">{{ ability.name }}</h3>
+                <h3 class="ability-name">{{ ability.displayName }}</h3>
                 <div
                     class="ability-description"
                     @click="showAbilityDescription(index)"
                 >
-                    {{ ability.description }}
-                    <div class="ability-tooltip" v-if="showTooltip[index]">
-                        {{ ability.tooltip }}
-                    </div>
+                    <img :src="ability.displayIcon" alt="icône de compétence" />
                 </div>
             </div>
+        </div>
+        <div class="ability-tooltip" v-if="this.currentAbility">
+            {{ this.currentAbility.description }}
         </div>
     </div>
 </template>
 
 <style scoped>
-
 .name-description {
     width: 350px;
     border: 1px solid red;
@@ -91,17 +91,22 @@ export default {
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    padding: 2rem;
+    width: 50%;
 }
 
 .agent-name {
     font-size: 2rem;
-    text-align: center;    
+    text-align: center;
     color: black;
-    border-bottom: 1px solid red;    
+    border-bottom: 1px solid red;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
-    background: linear-gradient(135deg, rgb(255, 51, 66) 0%, rgb(255, 48, 64) 0.01%, rgb(255, 125, 102) 100%);
+    background: linear-gradient(
+        135deg,
+        rgb(255, 51, 66) 0%,
+        rgb(255, 48, 64) 0.01%,
+        rgb(255, 125, 102) 100%
+    );
 }
 
 .agent-image {
@@ -109,7 +114,21 @@ export default {
     height: 50vh;
 }
 
-.agent-description {    
+.agent-role {
+    padding: 15px 5px;
+    display: flex;
+    flex-direction: row;
+    border-bottom: 1px solid red;
+    justify-content: center;
+}
+
+.agent-role img {
+    padding-right: 20px;
+    height: 30px;
+    width: 50px;
+}
+
+.agent-description {
     font-size: 1rem;
     padding: 4%;
     text-align: justify;
@@ -120,26 +139,31 @@ export default {
     margin-top: 2rem;
 }
 
-.ability-container {
+.agent-abilities {
+    width: 100%;
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.ability-container {
     margin-top: 1rem;
-    width: 80%;
+    width: 50%;
     border-bottom: 1px solid #ccc;
     padding-bottom: 1rem;
 }
 
 .ability-name {
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    margin-bottom: 0.2rem;
+    text-align: center;
 }
 
 .ability-description {
     font-size: 1.2rem;
     cursor: pointer;
+    text-align: center;
 }
 
 .ability-tooltip {
