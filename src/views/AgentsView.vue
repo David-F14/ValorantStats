@@ -26,7 +26,7 @@ export default {
 </script>
 
 <template>
-    <div class="agent-container">
+    <!-- <div class="agent-container">
         <ul class="list">
             <li v-for="agent in listAgents" class="list-item">
                 <RouterLink :to="{ name: 'agentDetails', params: { uuid: agent.uuid } }">
@@ -45,49 +45,57 @@ export default {
                 </RouterLink>
             </li>
         </ul>
+    </div> -->
+
+    <div class="agent-grid">
+        <div v-for="agent in listAgents" class="agent-card">
+            <RouterLink :to="{ name: 'agentDetails', params: { uuid: agent.uuid } }">
+                <div class="agent-image">
+                    <img :src="agent.displayIconSmall" alt="image de l'agent" />
+                </div>
+                <div class="agent-name">
+                    {{ agent.displayName }}
+                </div>
+            </RouterLink>
+        </div>
     </div>
 </template>
 
 <style scoped>
-.agent-container {
-    max-width: 960px;
-    margin: 0 auto;
+.agent-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-gap: 25px;
+    max-width: 960px;    
 }
 
-.list {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: column;
-}
-
-.list-item a {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0.7rem;
+.agent-card {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    text-align: center;
     background-color: rgba(15, 25, 35, 0.6);
     cursor: pointer;
     text-decoration: none;
 }
 
-.image img {
-    width: 135px;
-    height: 135px;
-    padding: 5px;
+.agent-card a {
+    text-decoration: none;
 }
 
-.name {
-    font-size: 1.2rem;
-    margin: 0.5rem 0;
-    padding: 0 5%;
-    text-align: left;
+.agent-card img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
 }
 
-.description {
-    font-size: 12px;
-    text-align: center;
+.agent-card h3 {
+    margin: 10px 0;
 }
+
+.agent-card p {
+    margin: 0 10px 10px;
+}
+
 </style>
