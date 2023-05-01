@@ -5,14 +5,14 @@ export default {
     props: ["uuid"],
     data() {
         return {
-            agent: {},
+            weapon: {},
             showTooltip: [],
             currentAbility: {},
         };
     },
     methods: {
-        getInfoAgent(uuid) {
-            return axios.get("https://valorant-api.com/v1/agents/" + uuid.toString(), {
+        getInfoWeapon(uuid) {
+            return axios.get("https://valorant-api.com/v1/weapons/" + uuid.toString(), {
                 params: { language: "fr-FR" },
             });
         },
@@ -24,37 +24,37 @@ export default {
         },
 
         showAbilityDescription(index) {
-            this.currentAbility = this.agent.abilities[index];
+            this.currentAbility = this.weapon.abilities[index];
         },
     },
 
     mounted() {
-        this.getInfoAgent(this.uuid).then((res) => {
-            this.agent = res.data.data;
-            this.agent.abilities.forEach((e) => (e.showTooltip = false));
-            this.currentAbility = this.agent.abilities[0];
-            this.playSound(this.agent.voiceLine);
+        this.getInfoWeapon(this.uuid).then((res) => {
+            this.weapon = res.data.data;
+            this.weapon.abilities.forEach((e) => (e.showTooltip = false));
+            this.currentAbility = this.weapon.abilities[0];
+            this.playSound(this.weapon.voiceLine);
         });
     },
 };
 </script>
 
 <template>
-    <div class="agent-presentation">
-        <img class="agent-image" :src="agent.bustPortrait" :alt="agent.name" />
+    <div class="weapon-presentation">
+        <img class="weapon-image" :src="weapon.bustPortrait" :alt="weapon.name" />
         <div class="name-description">
-            <h3 class="agent-name">{{ agent.displayName }}</h3>
-            <div class="agent-role" v-if="agent.role">
-                <img :src="agent.role.displayIcon" />
-                <h3>{{ agent.role.displayName }}</h3>
+            <h3 class="weapon-name">{{ weapon.displayName }}</h3>
+            <div class="weapon-role" v-if="weapon.role">
+                <img :src="weapon.role.displayIcon" />
+                <h3>{{ weapon.role.displayName }}</h3>
             </div>
-            <p class="agent-description">{{ agent.description }}</p>
+            <p class="weapon-description">{{ weapon.description }}</p>
         </div>
 
-        <div class="agent-abilities">
+        <div class="weapon-abilities">
             <div class="abilities-title">Compétences</div>
             <div class="abilities">
-                <div class="ability-container" v-for="(ability, index) in agent.abilities">
+                <div class="ability-container" v-for="(ability, index) in weapon.abilities">
                     <div class="ability-description" @click="showAbilityDescription(index)">
                         <img :src="ability.displayIcon" alt="icône de compétence" />
                     </div>
@@ -83,13 +83,13 @@ export default {
     justify-content: space-between;
 }
 
-.agent-abilities {
+.weapon-abilities {
     width: 30%;
     border: 1px solid red;
     border-radius: 10px;
 }
 
-.agent-presentation {
+.weapon-presentation {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
@@ -97,7 +97,7 @@ export default {
     height: 60%;
 }
 
-.agent-name {
+.weapon-name {
     font-size: 2rem;
     text-align: center;
     color: black;
@@ -107,12 +107,12 @@ export default {
     background: linear-gradient(135deg, rgb(255, 51, 66) 0%, rgb(255, 48, 64) 0.01%, rgb(255, 125, 102) 100%);
 }
 
-.agent-image {
+.weapon-image {
     position: relative;
     height: 60vh;
 }
 
-.agent-role {
+.weapon-role {
     padding: 15px 5px;
     display: flex;
     flex-direction: row;
@@ -120,13 +120,13 @@ export default {
     justify-content: center;
 }
 
-.agent-role img {
+.weapon-role img {
     padding-right: 20px;
     height: 30px;
     width: 50px;
 }
 
-.agent-description {
+.weapon-description {
     font-size: 1rem;
     padding: 4%;
     text-align: justify;

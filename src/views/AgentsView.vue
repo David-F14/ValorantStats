@@ -19,42 +19,20 @@ export default {
     mounted() {
         this.getAllAgents().then((res) => {
             this.listAgents = res.data.data;
-            console.log("listItems", this.listAgents);
         });
     },
 };
 </script>
 
 <template>
-    <!-- <div class="agent-container">
-        <ul class="list">
-            <li v-for="agent in listAgents" class="list-item">
-                <RouterLink :to="{ name: 'agentDetails', params: { uuid: agent.uuid } }">
-                    <div class="image">
-                        <img
-                            :src="agent.displayIconSmall"
-                            alt="image de l'agent"
-                        />
-                    </div>
-                    <div class="name">
-                        {{ agent.displayName }}
-                    </div>
-                    <div class="description">
-                        {{ agent.description }}
-                    </div>
-                </RouterLink>
-            </li>
-        </ul>
-    </div> -->
-
     <div class="agent-grid">
         <div v-for="agent in listAgents" class="agent-card">
-            <RouterLink :to="{ name: 'agentDetails', params: { uuid: agent.uuid } }">
-                <div class="agent-image">
-                    <img :src="agent.displayIconSmall" alt="image de l'agent" />
-                </div>
+            <RouterLink :to="{ name: 'agentDetails', params: { uuid: agent.uuid }}">
                 <div class="agent-name">
                     {{ agent.displayName }}
+                </div>
+                <div class="agent-image">
+                    <img :src="agent.displayIconSmall" alt="image de l'agent" />
                 </div>
             </RouterLink>
         </div>
@@ -63,10 +41,11 @@ export default {
 
 <style scoped>
 .agent-grid {
+    padding-top: 50px;
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: repeat(7, 1fr);
     grid-gap: 25px;
-    max-width: 960px;    
+    max-width: 1160px;    
 }
 
 .agent-card {
@@ -78,6 +57,7 @@ export default {
     background-color: rgba(15, 25, 35, 0.6);
     cursor: pointer;
     text-decoration: none;
+    border: 1px solid red;
 }
 
 .agent-card a {
