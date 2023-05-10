@@ -5,13 +5,14 @@ export default {
     data() {
         return {
             listWeapons: [],
+            listCategories: [],
         };
     },
 
     methods: {
         getAllWeapons() {
             return axios.get("https://valorant-api.com/v1/weapons", {
-                params: { language: "fr-FR"},
+                params: { language: "fr-FR" },
             });
         },
     },
@@ -19,36 +20,40 @@ export default {
     mounted() {
         this.getAllWeapons().then((res) => {
             this.listWeapons = res.data.data;
-            console.log('mo', this.listWeapons);
         });
     },
-};
 
+    computed: {
+        categories() {
+            return [...new Set(this.listWeapons.map((w) => w.category))].reverse();
+        },
+    },
+};
 </script>
 
 <template>
     <div class="weapon-grid">
-        <div v-for="weapon in listWeapons" class="weapon-card">
-            <RouterLink :to="{ name: 'weaponDetails', params: { uuid: weapon.uuid }}">
-                <div class="weapon-name">
-                    {{ weapon.displayName }}
-                </div>
-                <div class="weapon-image">
-                    <img :src="weapon.displayIcon" alt="image de l'arme" />
-                </div>
-            </RouterLink>
+        <div class="category" v-for="category in categories">
+            <h3>{{ category.replace("EEquippableCategory::", "") }}</h3>
+            <div v-for="weapon in listWeapons.filter(w => w.category == category)" class="weapon-card" 
+                v-bind:class="{pistol : weapon.category == 'EEquippableCategory::Sidearm'}">
+                <RouterLink :to="{ name: 'weaponDetails', params: { uuid: weapon.uuid } }">
+                    <div class="weapon-name">
+                        {{ weapon.displayName }}
+                    </div>
+                    <div class="weapon-image">
+                        <img :src="weapon.displayIcon" alt="image de l'arme" />
+                    </div>
+                </RouterLink>
+            </div>
         </div>
     </div>
 </template>
 
 <style scoped>
-
 .weapon-grid {
-    padding-top: 50px;
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    grid-gap: 25px;
-    max-width: 1160px;
+    display: flex;
+    justify-content: center;
 }
 
 .weapon-card {
@@ -59,9 +64,24 @@ export default {
     background-color: rgba(15, 25, 35, 0.6);
     cursor: pointer;
     text-decoration: none;
-    border: 1px solid red;
-    width: 150px;
-    height: 150px;
+    /* border: 1px solid red; */
+    margin: 10px 0px;
+}
+
+.category {
+    text-align: center;
+    padding: 15px;
+}
+
+.category h3 {
+    margin-bottom: 15px;
+    text-align: center;
+    color: black;
+    border-bottom: 1px solid red;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    background: linear-gradient(135deg, rgb(255, 51, 66) 0%, rgb(255, 70, 86) 0.01%, rgb(255, 124, 101) 100%);
+
 }
 
 .weapon-card a {
@@ -69,9 +89,13 @@ export default {
 }
 
 .weapon-card img {
-    width: 100%;
+    width: 90%;
     height: auto;
     object-fit: cover;
+}
+
+.pistol img {
+    width: 60%;
 }
 
 .weapon-card h3 {
@@ -81,5 +105,4 @@ export default {
 .weapon-card p {
     margin: 0 10px 10px;
 }
-
 </style>
