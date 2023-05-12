@@ -45,7 +45,7 @@ export default {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     grid-gap: 25px;
-    max-width: 1160px;    
+    max-width: 1400px;
 }
 
 .agent-card {

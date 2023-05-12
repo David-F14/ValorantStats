@@ -54,6 +54,7 @@ export default {
 .weapon-grid {
     display: flex;
     justify-content: center;
+    max-width: 1400px;
 }
 
 .weapon-card {
