@@ -1,4 +1,4 @@
-<script>
+getWeaponImg<script>
 import axios from "axios";
 import _ from "lodash";
 
@@ -21,6 +21,7 @@ export default {
 
         setCurrentSkin(skin) {
             this.currentSkin = skin;
+            this.setCurrentChroma(this.weaponChromas.length > 1 ? this.weaponChromas[0] : {});
         },
 
         setCurrentChroma(chroma) {
@@ -29,13 +30,31 @@ export default {
 
         objIsEmpty(obj){
             return _.isEmpty(obj);
+        },
+
+        getWeaponName() {
+            if (!this.objIsEmpty(this.currentChroma))
+                return this.currentChroma.displayName
+            else if (!this.objIsEmpty(this.currentSkin))
+                return this.currentSkin.displayName
+            else 
+                return this.weapon.displayName;
+        },
+
+        getWeaponImg() {
+            if (!this.objIsEmpty(this.currentChroma))
+                return this.currentChroma.fullRender
+            else if (!this.objIsEmpty(this.currentSkin))
+                return this.currentSkin.displayIcon
+            else 
+                return this.weapon.displayIcon;
         }
     },
 
     mounted() {
         this.getInfoWeapon(this.uuid).then((res) => {
             this.weapon = res.data.data;
-            console.log("weapon", this.weapon.skins[0].chromas);
+            console.log("weapon", this.weapon);
         });
     },
 
@@ -54,7 +73,7 @@ export default {
 
         weaponChromas() {
             return this.currentSkin?.chromas;
-        },
+        }
     },
 };
 </script>
@@ -64,8 +83,7 @@ export default {
         <div class="weapon">
             <div class="weapon__stage">
                 <div class="weapon__details">
-                    <h1 v-if="!objIsEmpty(this.currentSkin)" class="weapon__name">{{ this.currentSkin.displayName }}</h1>
-                    <h1 v-else class="weapon__name">{{ weapon.displayName }}</h1>
+                    <h1 class="weapon__name">{{ this.getWeaponName() }}</h1>
                     <span class="weapon__type">{{ weapon?.shopData?.category }} - {{ weapon?.shopData?.categoryText }}</span>
                 </div>
                 <span class="weapon__cost"
@@ -79,19 +97,21 @@ export default {
                 </span>
                 <div  class="weapon__theme">
                     <img
-                        
                         src="https://titles.trackercdn.com/valorant-api/themes/92d4ccf0-446f-db43-f028-4a9f4bc2714c/displayicon.png"
                         title="Araxys"
                         alt="Araxys Icon"
                         class="weapon__theme-icon" />
                 </div>
                 <div  class="weapon__chromas">
-                    <div v-for="chroma in this.weaponChromas" class="weapon__chroma" @click="setCurrentChroma()">
+                    <div v-if="this.weaponChromas?.length > 1" v-for="chroma in this.weaponChromas" class="weapon__chroma" 
+                    :class="{ 'weapon__chroma--active': chroma == currentChroma }" 
+                    @click="setCurrentChroma(chroma)">
                         <img :src="chroma.swatch" />
                     </div>
                 </div>
-                <img v-if="!objIsEmpty(this.currentSkin)" :src="this.currentSkin.displayIcon" class="weapon__image" />
-                <img v-else :src="weapon.displayIcon" class="weapon__image" />
+                <img class="weapon__image"
+                    :src="this.getWeaponImg()"  
+                    :class="{pistol : weapon.category == 'EEquippableCategory::Sidearm'}" />
             </div>
             <div class="skins">
                 <a v-for="skin in weaponSkins" class="skin" @click="setCurrentSkin(skin)" :class="{ 'skin--active': skin == currentSkin }"
@@ -198,9 +218,9 @@ export default {
                     <dt>Shotgun Pellet Count</dt>
                     <dd>{{ weapon?.weaponStats?.shotgunPelletCount }}</dd>
                 </dl>
-                <div class="stats__mode--alt">
+                <div v-if="weapon?.weaponStats?.altFireType" class="stats__mode--alt">
                     <span class="stats__section-title"
-                        >Alt. Fire ({{ weapon?.weaponStats?.altFireType.replace("EWeaponAltFireDisplayType::", "") }})</span
+                        >Alt. Fire ({{ weapon?.weaponStats?.altFireType?.replace("EWeaponAltFireDisplayType::", "") }})</span
                     >
                     <dl class="stats__mode">
                         <dt>Fire Rate</dt>
@@ -499,13 +519,18 @@ export default {
 
 .weapon__name {
     margin: 0;
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     font-family: Rajdhani,Roboto,-apple-system,BlinkMacSystemFont,Segoe UI,Oxygen-Sans,Ubuntu,Cantarell,Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji",Segoe UI Symbol;
     font-weight: 500;
 }
 
 .weapon__chroma--active {
     border: 0.125rem solid #16E5B4;
+}
+
+.pistol {
+    width: 80%;
+    padding-left: 40px;
 }
 
 </style>
