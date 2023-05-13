@@ -9,7 +9,7 @@ export default {
             weapon: {},
             currentSkin : {},
             currentChroma : {},
-            badSkin: "https://media.valorant-api.com/weaponskins/27f21d97-4c4b-bd1c-1f08-31830ab0be84/displayicon.png",
+            currentTheme : {}
         };
     },
     methods: {
@@ -22,10 +22,20 @@ export default {
         setCurrentSkin(skin) {
             this.currentSkin = skin;
             this.setCurrentChroma(this.weaponChromas.length > 1 ? this.weaponChromas[0] : {});
+            this.setCurrentTheme();
         },
 
         setCurrentChroma(chroma) {
             this.currentChroma = chroma;
+        },
+
+        setCurrentTheme(){
+            this.currentTheme = {};
+            if (this.currentSkin?.themeUuid){
+                axios.get("https://valorant-api.com/v1/themes/" + this.currentSkin?.themeUuid.toString(), {
+                    params: { language: "fr-FR" },
+                }).then(res => this.currentTheme = res.data.data);
+            }
         },
 
         objIsEmpty(obj){
@@ -68,7 +78,7 @@ export default {
         },
 
         weaponSkins() {
-            return this.weapon?.skins?.filter((s) => s.displayIcon != null && s.displayIcon != this.badSkin);
+            return this.weapon?.skins?.filter((s) => s.displayIcon != null);
         },
 
         weaponChromas() {
@@ -97,9 +107,10 @@ export default {
                 </span>
                 <div  class="weapon__theme">
                     <img
-                        src="https://titles.trackercdn.com/valorant-api/themes/92d4ccf0-446f-db43-f028-4a9f4bc2714c/displayicon.png"
-                        title="Araxys"
-                        alt="Araxys Icon"
+                        v-if="this.currentTheme.displayIcon"
+                        :src="this.currentTheme.displayIcon"
+                        :title="this.currentTheme.displayName"
+                        :alt="(this.currentTheme.displayName) + 'Icon'"
                         class="weapon__theme-icon" />
                 </div>
                 <div  class="weapon__chromas">
