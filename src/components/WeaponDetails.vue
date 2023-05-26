@@ -277,11 +277,7 @@ export default {
             </div>
         </div>
         <div class="insights">
-            <svg v-if="!currentChroma.streamedVideo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="insights__icon">
-                <path
-                    d="m2.2 4 .1.1c.2.3 11.8 14.8 12.8 16v.1a.1.1 0 0 1-.1.1H8.8a.52.52 0 0 1-.4-.2c-.2-.2-4.4-5.4-6.3-7.9A.31.31 0 0 0 2 12V4.1a.349.349 0 0 1 .2-.1Zm19.8.2c0-.1-.1-.1-.1-.2h-.1l-.2.2c-.9 1.1-8.1 10.1-8.3 10.3l-.1.1c0 .1 0 .1.1.1h6.2c.1 0 .2-.1.3-.2l.2-.2c.5-.7 1.7-2.2 1.8-2.3 0-.1 0-.1.1-.2v-.1c.1-2.4.1-4.9.1-7.5Z"></path>
-            </svg>
-            <video v-else class="stream-chroma" :src="currentChroma.streamedVideo" controls></video>
+            <video height="300" width="570" disable-picture-in-picture="true" class="stream-chroma" :src="currentChroma?.streamedVideo" controls></video>
         </div>
     </div>
 </template>
