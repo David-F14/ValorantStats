@@ -6,6 +6,7 @@ import GameModesView from '../views/GameModesView.vue'
 import WeaponsView from '../views/WeaponsView.vue'
 import AgentsDetails from '@/components/AgentDetails.vue'
 import WeaponsDetails from '@/components/WeaponDetails.vue'
+import MapDetails from '@/components/MapDetails.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -41,6 +42,12 @@ const router = createRouter({
       path: '/maps',
       name: 'maps',
       component: MapsView
+    },
+    {
+      path: '/maps/:uuid',
+      name: 'mapDetails',
+      component: MapDetails,
+      props: true
     },
     {
       path: '/game-modes',

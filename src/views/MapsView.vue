@@ -19,7 +19,6 @@ export default {
     mounted() {
         this.getAllMaps().then((res) => {
             this.listMaps = res.data.data;
-            console.log("listmaps", this.listMaps);
         });
     },
 };
@@ -27,12 +26,13 @@ export default {
 
 <template>
     <div class="map-grid">
-        <a v-for="map in listMaps" :href="'maps/' + map.displayName" 
-            class="valorant-card" 
-            :style="'background-image: url('+map.splash+')'">
+        <RouterLink v-for="map in listMaps" 
+            :to="{ name: 'mapDetails', params: { uuid: map.uuid }}" 
+            :style="'background-image: url('  +map.splash+')'" 
+            class="valorant-card">
             <span class="valorant-card__name">{{map.displayName}}</span>
             <span class="valorant-card__vertical">Map // {{map.displayName}}</span>
-        </a>
+        </RouterLink>
     </div>
 </template>
 
@@ -45,15 +45,13 @@ export default {
 }
 
 .valorant-card {
-    padding-top: 56.25%;
-}
-.valorant-card {
     outline: 1px solid #7399BF;
     text-decoration: none;
     position: relative;
     overflow: hidden;
     height: 16rem;
     background-size: cover;
+    padding-top: 56.25%;
 }
 
 .valorant-card:before {

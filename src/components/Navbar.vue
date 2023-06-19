@@ -7,8 +7,7 @@
             <li class="navbar-item"><RouterLink to="/">Home</RouterLink></li>
             <li class="navbar-item"><RouterLink to = "/agents">Agents</RouterLink></li>
             <li class="navbar-item"><RouterLink to = "/weapons">Weapons</RouterLink></li>
-            <li class="navbar-item"><RouterLink to = "/maps">Maps</RouterLink></li>
-            <li class="navbar-item"><RouterLink to = "/game-modes">Game modes</RouterLink></li>
+            <li class="navbar-item"><RouterLink to = "/maps">Maps</RouterLink></li>            
             <li class="navbar-item"><RouterLink to = "/about">About</RouterLink></li>
         </ul>
     </nav>
